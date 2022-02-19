@@ -1,0 +1,36 @@
+<h1>{{ heading }}</h1>
+<hr class="solid">
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" formControlName="name" aria-describedby="item name"
+        placeholder="Enter name" />
+      <span *ngIf="itemForm.controls['name'].errors?.required && itemForm.controls['name'].dirty" class="alert-warning">
+        Name is requred.
+      </span>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" class="form-control" formControlName="description" placeholder="Description ..." />
+      <span *ngIf="itemForm.controls['description'].errors?.required && itemForm.controls['description'].dirty"
+        class="alert-warning">Description is requred.</span>
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <div class="input-group">
+        <input type="number" formControlName="price" class="form-control" aria-label="Price with currency" />
+        <div class="input-group-append">
+          <select class="form-control" formControlName="currency">
+            <option selected="selected" value="">Currency</option>
+            <option *ngFor="let currency of currencyList">{{ currency }}</option>
+          </select>
+        </div>
+      </div>
+      <span *ngIf="itemForm.controls['price'].errors?.required && itemForm.controls['price'].dirty" class="alert-warning">
+        Price is requred.
+      </span>
+    </div>
+    <button type="submit" [disabled]="itemForm.pristine || itemForm.invalid" class="btn btn-success">
+      Save
+    </button>
+  </form>

@@ -1,0 +1,10 @@
+table 
+    counter-reset: rowNumber
+
+
+tbody tr td:nth-child(1)::before
+    display: table-cell
+    counter-increment: rowNumber
+    content: counter(rowNumber) "."
+    padding-right: 0.3em
+    text-align: right

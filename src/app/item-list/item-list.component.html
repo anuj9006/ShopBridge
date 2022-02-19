@@ -1,0 +1,27 @@
+<h1>Item list</h1>
+<hr class="solid">
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of itemList$ | async;">
+      <td></td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.description }}</td>
+      <td>{{item.price | currency:item.currency}}</td>
+      <td>
+        <div class="d-flex justify-content-around">
+          <a role="button" (click)="editItem(item)"><img src="/assets/img/edit.svg"></a>
+          <a role="button" (click)="deleteItem(item)"><img src="/assets/img/trash.svg"></a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
