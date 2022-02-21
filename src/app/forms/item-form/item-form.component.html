@@ -1,32 +1,43 @@
 <h1>{{ heading }}</h1>
 <hr class="solid">
-<form [formGroup]="itemForm" (ngSubmit)="onSubmit()" novalidate>
+<div class="border border-dark rounded">
+  <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="m-2" novalidate>
+    <legend>Item details:</legend>
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" class="form-control" formControlName="name" aria-describedby="item name"
+      <input type="text" id="name" class="form-control" formControlName="name" aria-describedby="item name"
         placeholder="Enter name" />
       <span *ngIf="itemForm.controls['name'].errors?.required && itemForm.controls['name'].dirty" class="alert-warning">
         Name is requred.
       </span>
+      <span *ngIf="itemForm.controls['name'].invalid && itemForm.controls['name'].dirty" class="alert-warning">
+        Invalid name.
+      </span>
     </div>
     <div class="form-group">
       <label for="description">Description:</label>
-      <input type="text" class="form-control" formControlName="description" placeholder="Description ..." />
+      <input type="text" id="description" class="form-control" formControlName="description"
+        placeholder="Description ..." />
       <span *ngIf="itemForm.controls['description'].errors?.required && itemForm.controls['description'].dirty"
         class="alert-warning">Description is requred.</span>
+      <span *ngIf="itemForm.controls['description'].invalid && itemForm.controls['description'].dirty"
+        class="alert-warning">
+        Invalid description.
+      </span>
     </div>
     <div class="form-group">
       <label for="price">Price:</label>
       <div class="input-group">
-        <input type="number" formControlName="price" class="form-control" aria-label="Price with currency" />
+        <input type="number" id="price" formControlName="price" class="form-control" aria-label="Price with currency" />
         <div class="input-group-append">
-          <select class="form-control" formControlName="currency">
-            <option selected="selected" value="">Currency</option>
-            <option *ngFor="let currency of currencyList">{{ currency }}</option>
+          <select id="currency" class="form-control" formControlName="currency">
+            <option selected="itemForm.controls.currency.value" value="">Currency</option>
+            <option *ngFor="let c of currencyList" [ngValue]="c">{{ c }}</option>
           </select>
         </div>
       </div>
-      <span *ngIf="itemForm.controls['price'].errors?.required && itemForm.controls['price'].dirty" class="alert-warning">
+      <span *ngIf="itemForm.controls['price'].errors?.required && itemForm.controls['price'].dirty"
+        class="alert-warning">
         Price is requred.
       </span>
     </div>
@@ -34,3 +45,4 @@
       Save
     </button>
   </form>
+</div>

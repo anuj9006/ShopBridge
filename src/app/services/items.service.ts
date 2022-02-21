@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Model, ModelFactory } from '@angular-extensions/model';
 import { Item } from '../models/item.model';
 import { Observable } from 'rxjs';
+import { ErrorService } from './error.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ export class ItemsService {
   constructor(
     private http: HttpClient,
     private modelFactory: ModelFactory<Array<Item>>,
+    private errorService: ErrorService
   ) {
     this.model = this.modelFactory.create([]);
     this.itemsList$ = this.model.data$;
@@ -33,7 +36,7 @@ export class ItemsService {
     return this.http.post('http://localhost:3000/addItem', item, { headers: this.setHeaders() }).subscribe((data: Item[]) => {
       this.model.set(data)
     }, (error) => {
-      console.log(error);
+      this.errorService.showError(error.error);
     });
   }
   setHeaders(): import("@angular/common/http").HttpHeaders | { [header: string]: string | string[]; } {
@@ -43,13 +46,18 @@ export class ItemsService {
   }
   editItem(item: Item) {
     //this.items = this.items.filter((element: Item) => element.name !== item.name);
+    return this.http.put('http://localhost:3000/items/', item).subscribe((data: Item[]) => {      
+      this.model.set(data);      
+    }, (error) => {
+      this.errorService.showError(error.error);      
+    });
   }
   deleteItem(item: Item) {
     //this.items = this.items.filter((element: Item) => element.name !== item.name);
-    return this.http.delete('http://localhost:3000/items/'+item.name).subscribe((data: Item[]) => {
+    return this.http.delete('http://localhost:3000/items/'+ item.name).subscribe((data: Item[]) => {
       this.model.set(data);
     }, (error) => {
-
+      this.errorService.showError(error.error);
     });
   }
 }

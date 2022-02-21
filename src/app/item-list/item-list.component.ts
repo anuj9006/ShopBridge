@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder } from '@angular/forms';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { AddItemComponent } from '../add-item/add-item.component';
 import { ItemFormComponent } from '../forms/item-form/item-form.component';
 import { Item } from '../models/item.model';
 import { ItemsService } from '../services/items.service';
@@ -16,7 +16,9 @@ export class ItemListComponent implements OnInit {
   private modalRef: NgbModalRef;
   constructor(
       private itemsService: ItemsService,
-      private modalService: NgbModal
+      private modalService: NgbModal,
+      private fb: FormBuilder,
+      private activeModal: NgbActiveModal
     ) { }
 
   ngOnInit(): void {
@@ -25,9 +27,16 @@ export class ItemListComponent implements OnInit {
   editItem(item: Item) {
     this.modalRef = this.modalService.open(ItemFormComponent);
     this.modalRef.componentInstance.heading = "Edit Item";
-    this.itemsService.editItem(item);
+    this.modalRef.componentInstance.itemForm = this.fb.group({
+      name: [item.name],
+      description: [item.description],
+      price: [item.price],
+      currency: [item.currency]
+   });
+   this.modalRef.componentInstance.isEdit = true;
   }
   deleteItem(item: Item) {
-    this.itemsService.deleteItem(item);
+    const result = window.confirm("Are you sure you want to delete item - " + item.name);
+    result ? this.itemsService.deleteItem(item) : '';
   }
 }
