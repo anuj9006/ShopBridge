@@ -13,7 +13,7 @@ import { ItemsService } from '../services/items.service';
 })
 export class ItemListComponent implements OnInit {
   itemList$: Observable<Item[]> = this.itemsService.itemsList$;
-  private modalRef: NgbModalRef;
+  public modalRef: NgbModalRef;
   constructor(
       private itemsService: ItemsService,
       private modalService: NgbModal,
@@ -33,6 +33,7 @@ export class ItemListComponent implements OnInit {
       price: [item.price],
       currency: [item.currency]
    });
+   this.modalRef.componentInstance.editItem = item;
    this.modalRef.componentInstance.isEdit = true;
   }
   deleteItem(item: Item) {

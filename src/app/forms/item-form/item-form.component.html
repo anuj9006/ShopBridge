@@ -44,5 +44,8 @@
     <button type="submit" [disabled]="itemForm.pristine || itemForm.invalid" class="btn btn-success">
       Save
     </button>
+    <button *ngIf="isEdit" (click)="activeModal.close()" class="btn btn-info float-right">
+      Cancel
+    </button>
   </form>
 </div>

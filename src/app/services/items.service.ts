@@ -45,7 +45,6 @@ export class ItemsService {
     return headers;
   }
   editItem(item: Item) {
-    //this.items = this.items.filter((element: Item) => element.name !== item.name);
     return this.http.put('http://localhost:3000/items/', item).subscribe((data: Item[]) => {      
       this.model.set(data);      
     }, (error) => {
@@ -53,7 +52,6 @@ export class ItemsService {
     });
   }
   deleteItem(item: Item) {
-    //this.items = this.items.filter((element: Item) => element.name !== item.name);
     return this.http.delete('http://localhost:3000/items/'+ item.name).subscribe((data: Item[]) => {
       this.model.set(data);
     }, (error) => {

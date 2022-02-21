@@ -13,6 +13,7 @@ const ALPHA_NUMERIC_REGEX = /^[a-zA-Z0-9_]*$/;
 export class ItemFormComponent implements OnInit {
   currencyList: String[];
   public isEdit: Boolean = false;
+  public editItem: Item;
   public itemForm: FormGroup = this.fb.group({
     name: ['', [Validators.pattern(ALPHA_NUMERIC_REGEX)] ],
     description: ['', Validators.required ],
@@ -37,8 +38,13 @@ export class ItemFormComponent implements OnInit {
       price: this.itemForm.controls['price'].value,
       currency: this.itemForm.controls['currency'].value
     }
-    this.isEdit ? this.itemsService.editItem(item) : this.itemsService.addItem(item);
+    if(this.editItem == undefined) {
+      this.itemsService.addItem(item);
+    } else {
+      this.isEdit && JSON.stringify(this.editItem) != JSON.stringify(item) ? this.itemsService.editItem(item) : '';
+    }    
     this.itemForm.reset();
     this.activeModal.close();
   }
 }
+
